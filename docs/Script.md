@@ -117,6 +117,7 @@
 
 #### duration <span id="main:story:next:duration">本场景持续时间</span>
 本场景在此时间后,自动进入下一个场景,不论用户有没有操作以及过渡是否播放完
+当`type`为`select`时,此参数无效
 
 默认值:`0`
 
@@ -182,6 +183,7 @@
 
 #### endHide <span id="main:story:dialog:endHide">结束隐藏对话框</span>
 在本场景结束后是否隐藏对话框
+当`mode`为`select`时,此配置将决定选择框是覆盖在对话框上面还是只显示选择框
 
 默认值:`false`
 
@@ -314,6 +316,7 @@
 | `sleep` | `毫秒` | <b><a href="#main:story:scene:layer:sleep">延迟渲染时间</a></b> | 非必须 |
 | `path` | `路径` | <b><a href="#main:story:scene:layer:path">资源路径</a></b> | 非必须 |
 | `res` | `文件名` `十六进制颜色` `"res":{...}` | <b><a href="#main:story:scene:layer:res">资源名</a></b> |  |
+| `block` | `[部件名]` | <b><a href="#main:story:scene:layer:block">精灵部件</a></b> | 非必须 |
 | `alpha` | `0-1浮点数` | <b><a href="#main:story:scene:layer:alpha">透明度</a></b> | 非必须 |
 | `rotate` | `0-360整数` | <b><a href="#main:story:scene:layer:rotate">旋转角度</a></b> | 非必须 |
 | `position` | `"position":[w, h, x, y]` | <b><a href="#main:story:scene:layer:position">图层位置</a></b> |  |
@@ -329,7 +332,7 @@
 
 ## type <span id="main:story:scene:layer:type">图层类型</span>
 决定着图层的类型
-当类型为sprite时,不论json内定义了多少个部件,此类型的图层都只使用character部件,且支持被其他类作为<a href="#main:story:scene:layer:parent">父级继承</a>
+<a href="#main:story:scene:layer:parent">父级继承</a>
 | 值 | 说明 |
 | --- | --- |
 | `block` | 纯色块 |
@@ -444,22 +447,31 @@
 
 <br />
 
+## block <span id="main:story:scene:layer:block">精灵部件</span>
+使用在精灵的的JSON文件中声明的部件名作为图像
+渲染器会将该组件的position所框定的区域绘制出来
+注意:该配置不能与`animation`一起使用,当同时使用这两个配置时,只有`block`会生效
+注意:强烈建议将主要立绘的部件名命名为body并保持此配置为默认
+默认值:`body`
+
+<br />
+
 ## alpha <span id="main:story:scene:layer:alpha">透明度</span>
-图层开始或者关键帧渲染的透明度
+图层初始关键帧渲染的透明度
 
 默认值:`1.0`
 
 <br />
 
 ## rotate <span id="main:story:scene:layer:rotate">旋转角度</span>
-图层开始或者关键帧渲染的旋转角度
+图层初始关键帧渲染的旋转角度
 
 默认值:`0`
 
 <br />
 
 ## position <span id="main:story:scene:layer:position">图层位置</span>
-图层开始或者关键帧渲染的宽,高,横轴位置,纵轴位置,可以只写位置而不写宽高
+图层初始关键帧渲染的宽,高,横轴位置,纵轴位置,可以只写位置而不写宽高
 单位可以是`px`或`%`,没有单位时默认当`px`处理,当宽高省略时默认为`100%`,且位置相对于`align`开始
 <b>注意:宽高百分比是相对于资源本身的宽高来计算的,而位置的百分比是相对于整个画面来计算的</b>
 例如`[100,200]`表示图像大小`100%`,位置`x` = `100px`,`y` = `200px`
