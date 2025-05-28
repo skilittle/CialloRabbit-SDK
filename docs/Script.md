@@ -32,8 +32,8 @@
 | `action` | `"action":{...}` | <b><a href="#main:story:action">执行程序对象</a></b> | 非必须 |
 | `next` | `"next": {...}` | <b><a href="#main:story:next">下一个场景对象</a></b> |  | 
 | `dialog` | `"dialog": {...}` | <b><a href="#main:story:dialog">对话框对象</a></b> | 非必须 |
-| `audio` | `"audio": {...}` | <b><a href="#main:story:audio">音频对象</a></b> | 非必须 |
-| `scene` | `"scene": {...}` | <b><a href="#main:story:scene">画面场景对象</a></b> | 非必须 |
+| `audio` | `"audio": [{...}]` | <b><a href="#main:story:audio">音频对象</a></b> | 非必须 |
+| `scene` | `"scene": [{...}]` | <b><a href="#main:story:scene">画面场景对象</a></b> | 非必须 |
 
 <br />
 
@@ -221,11 +221,19 @@
 #### path <span id="main:story:audio:path">音频路径</span>
 音频所在相对于`sounds/[码率]/`目录内的文件夹名
 例如填写`bgm`就是相当于文件位于`sounds/bgm/`目录内
+<font color='red'>程序会根据用户设置的码率使用不同码率文件夹下的文件</font>
 
 <br />
 
 #### res <span id="main:story:audio:res">音频文件名</span>
 音频的文件名,不包括后缀名
+<font color='red'>程序会根据用户设置的码率,使用不同的后缀名，参考以下表</font>
+| 码率 | 后缀 |
+| --- | --- |
+| `CBR 128k` | mp3 |
+| `Q7 225k` | ogg |
+| `CBR 320k` | mp3 |
+| `PCM 768k` | wav |
 
 <br />
 
@@ -312,9 +320,9 @@
 | `cover` | `globalCompositeOperation值` | <b><a href="#main:story:scene:layer:cover">覆盖方式</a></b> | 非必须 |
 | `childrenCover` | `globalCompositeOperation值` | <b><a href="#main:story:scene:layer:childrenCover">子级覆盖方式</a></b> | 非必须 |
 | `parent` | `字符串` | <b><a href="#main:story:scene:layer:parent">继承父级名</a></b> | 非必须 |
-| `transition` | `"transition":{"start":{...},"end":{...}}` | <b><a href="#main:story:scene:layer:transition">过渡对象</a></b> | 非必须 |
+| `transition` | `"transition":{"start":[{...}],"end":[{...}]}` | <b><a href="#main:story:scene:layer:transition">过渡对象</a></b> | 非必须 |
 | `animation` | `"animation":{...}` | <b><a href="#main:story:scene:layer:animation">动画对象</a></b> | 非必须 |
-| `children` | `"children":{...}` | <b><a href="#main:story:scene:layer:children">子级图层对象</a></b> | 非必须 |
+| `children` | `"children":[{...}]` | <b><a href="#main:story:scene:layer:children">子级图层对象</a></b> | 非必须 |
 |  |  |  |  |
 
 <br />
