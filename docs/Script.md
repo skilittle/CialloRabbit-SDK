@@ -314,9 +314,7 @@
 | `type` | `block` `gradientBlock` `text` `image` `sprite` `frame` `template` | <b><a href="#main:story:scene:layer:type">图层类型</a></b> |  |
 | `align` | `0-8整数` | <b><a href="#main:story:scene:layer:align">对齐方式</a></b> | 非必须 |
 | `sleep` | `毫秒` | <b><a href="#main:story:scene:layer:sleep">延迟渲染时间</a></b> | 非必须 |
-| `path` | `路径` | <b><a href="#main:story:scene:layer:path">资源路径</a></b> | 非必须 |
 | `res` | `文件名` `十六进制颜色` `"res":{...}` | <b><a href="#main:story:scene:layer:res">资源名</a></b> |  |
-| `block` | `[部件名]` | <b><a href="#main:story:scene:layer:block">精灵部件</a></b> | 非必须 |
 | `alpha` | `0-1浮点数` | <b><a href="#main:story:scene:layer:alpha">透明度</a></b> | 非必须 |
 | `rotate` | `0-360整数` | <b><a href="#main:story:scene:layer:rotate">旋转角度</a></b> | 非必须 |
 | `position` | `"position":[w, h, x, y]` | <b><a href="#main:story:scene:layer:position">图层位置</a></b> |  |
@@ -341,6 +339,7 @@
 | `image` | 图片 |
 | `sprite` | 精灵 |
 | `frame` | 帧动画 |
+| `particle` | 粒子动画 |
 | `template` | 模板 |
 
 <br />
@@ -360,32 +359,23 @@
 
 <br />
 
-## path <span id="main:story:scene:layer:path">资源路径</span>
-资源所在相对于`assets/`目录内的文件夹名,可以是目录的子目录
-例如`textures/backgrounds`表示资源在`assets/textures/backgrounds/`内
-仅当图层为`image`,`sprite`,`template`,`frame`时有效,所以当`type`为`block`,`gradientBlock`,`text`时可以省略
-当脚本位于`creative_workshop`中的项目时,`assets`也是相对于项目内部的文件夹而言
-
-默认值:无
-
-<br />
-
 ## res <span id="main:story:scene:layer:res">资源名</span>
 对于不同的图层类型有不同的处理方式,参考以下
 | 值 | 说明 |
 | --- | --- |
 | `block` | 十六进制RGB颜色值,例如`#ff0000` |
-| `gradientBlock` | 渐变块样式对象 `"res":{...}` |
-| `text` | 文字样式对象 `"res":{...}` |
-| `image` | png图像名,不包含后缀名,例如`bg100001` |
-| `sprite` | 精灵的json文件名,不包含后缀名,例如`chr001` |
-| `frame` | 精灵的json文件名,不包含后缀名,例如`chr001` |
+| `gradientBlock` | <b><a href="#main:story:scene:layer:res:gradientBlock">渐变块样式对象</a></b> `"res":{...}` |
+| `text` | <b><a href="#main:story:scene:layer:res:text">文字样式对象</a></b> `"res":{...}` |
+| `image` | <b><a href="#main:story:scene:layer:res:image">图像信息对象</a></b> `"res":{...}` |
+| `sprite` | <b><a href="#main:story:scene:layer:res:sprite">精灵对象</a></b> `"res":{...}` |
+| `frame` | <b><a href="#main:story:scene:layer:res:sprite">精灵对象</a></b> `"res":{...}` |
+| `particle` | 粒子动画配置的json文件名,不包含后缀名,例如`part001` |
 | `template` | 模板的json文件名,不包含后缀名,例如`tp001` |
 
 <br />
 
 ### gradientBlock <span id="main:story:scene:layer:res:gradientBlock">渐变块样式对象</span>
-如果<b><a href="#main:story:scene:layer:name">图层类型</a></b>为`gradientBlock`则参考以下渐变快对象
+在画面上绘制一个带有渐变的色块
 
 | key | 值 | 说明 | 备注 |
 | --- | --- | --- | --- |
@@ -407,7 +397,7 @@
 
 
 ### text <span id="main:story:scene:layer:res:text">文字样式对象</span>
-如果<b><a href="#main:story:scene:layer:name">图层类型</a></b>为`text`则参考以下文字样式对象
+在画面上绘制文本
 
 | key | 值 | 说明 | 备注 |
 | --- | --- | --- | --- |
@@ -417,6 +407,7 @@
 | `shadow` | `"shadow":[...]` | <b><a href="#main:story:scene:layer:res:text:shadow">字体阴影</a></b> | 非必须 |
 
 <br />
+
 
 #### font <span id="main:story:scene:layer:res:text:font">字体样式</span>
 此对象是一个数组,包含着字体的主要样式
@@ -447,10 +438,54 @@
 
 <br />
 
-## block <span id="main:story:scene:layer:block">精灵部件</span>
+### image <span id="main:story:scene:layer:res:image">图像对象</span>
+在画面上直接绘制整个图像
+
+| key | 值 | 说明 | 备注 |
+| --- | --- | --- | --- |
+| `name` | `字符串` | png图像名,不包含后缀名,例如`bg100001` |  |
+| `path` | `路径` | <b><a href="#main:story:scene:layer:res:image:path">资源路径</a></b> |  |
+| `lang` | `"lang":[...]` | <b><a href="#main:story:scene:layer:res:image:lang">可用语言列表</a></b> | 非必须 |
+
+<br />
+
+#### path <span id="main:story:scene:layer:res:image:path">资源路径</span>
+资源所在相对于`assets/`目录内的文件夹名,可以是目录的子目录
+例如`textures/backgrounds`表示资源在`assets/textures/backgrounds/`内
+当脚本位于`creative_workshop`中的项目时,`assets`也是相对于项目内部的文件夹而言
+
+<br />
+
+#### <span id="main:story:scene:layer:res:image:lang">设定语言列表</span>
+当内容有使用多语言的需求时,可以将图像放在不同的语言文件夹内并在此配置中声明
+(在用户使用简体中文的情况下)配置此项后图像的位置将从原来的`assets/textures/backgrounds/xxx.png`变为`assets/textures/backgrounds/zh_CN/xxx.png`
+对于`sprite` `frame`类型也同理,但文件后缀相应变为json文件
+当用户选择的语言没有对应的资源时,将使用此值的第一项配置,如本文的`zh_CN`
+举例:
+```json
+"lang":["zh_CN", "ja_JP", "en_US"]
+```
+
+默认值:无
+
+<br />
+
+### sprite / frame <span id="main:story:scene:layer:res:sprite">精灵对象</span>
+在画面上绘制带有精灵图像的特定块或一组动画
+
+| key | 值 | 说明 | 备注 |
+| --- | --- | --- | --- |
+| `name` | `字符串` | 精灵json文件名,不包含后缀名,例如`chr001` |  |
+| `path` | `路径` | <b><a href="#main:story:scene:layer:res:image:path">资源路径</a></b> |  |
+| `lang` | `"lang":[...]` | <b><a href="#main:story:scene:layer:res:image:lang">可用语言列表</a></b> | 非必须 |
+| `block` | `[部件名]` | <b><a href="#main:story:scene:layer:res:image:block">精灵部件</a></b> | 非必须 |
+
+<br />
+
+#### block <span id="main:story:scene:layer:res:image:block">精灵部件</span>
 使用在精灵的的JSON文件中声明的部件名作为图像
 渲染器会将该组件的position所框定的区域绘制出来
-注意:该配置不能与`animation`一起使用,当同时使用这两个配置时,只有`block`会生效
+该配置在图层类型为`frame`时作为第一帧,如果需要使用map请不要设置
 注意:强烈建议将主要立绘的部件名命名为body并保持此配置为默认
 默认值:`body`
 
