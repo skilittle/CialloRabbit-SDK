@@ -1,0 +1,506 @@
+{
+  "uuid": "567e89ab-cdef-1234-5678-9abcdef12345",
+  "name": "ExtendedSampleScript",
+  "version": "24-01-15",
+  "describe": "This is an extended sample script demonstrating various features.",
+  "date": "24-01-15",
+  "story": {
+    "startScene": {
+      "type": "renderer",
+      "label": ["log"],
+      "action": {
+        "method": "initializeGame",
+        "val": {
+          "difficulty": "medium",
+          "playerName": "Hero"
+        }
+      },
+      "next": {
+        "type": "scene",
+        "console": true,
+        "sleep": 3000,
+        "duration": 8000,
+        "to": "@main*dialogueScene"
+      },
+      "dialog": {
+        "title": "@common*WelcomeTitle",
+        "text": "@story*WelcomeText",
+        "sleep": 1500
+      },
+      "audio": [
+        {
+          "type": "bgm",
+          "channel": "backgroundMusic",
+          "path": "bgm",
+          "res": "introBGM",
+          "sleep": 1000,
+          "loop": true
+        }
+      ],
+      "scene": [
+        {
+          "name": "background",
+          "keep": true,
+          "layer": [
+            {
+              "type": "image",
+              "sleep": 2000,
+              "res": {
+                "name": "startBG",
+                "path": "textures/backgrounds"
+              },
+              "alpha": 0.9,
+              "rotate": 0,
+              "position": ["60%", "60%", 150, 250],
+              "transition": {
+                "start": [
+                  {
+                    "duration": 3000,
+                    "alpha": 1
+                  }
+                ],
+                "end": [
+                  {
+                    "duration": 3000,
+                    "alpha": 0
+                  }
+                ]
+              }
+            },
+            {
+              "type": "text",
+              "align": 4,
+              "sleep": 3500,
+              "res": {
+                "text": "Welcome to the Game!",
+                "font": [32, "bold", "normal", "#FFFFFF", "Arial"],
+                "stroke": [2, "#000000"],
+                "shadow": [10, 5, 5, "#888888"]
+              },
+              "alpha": 0,
+              "rotate": 0,
+              "position": [200, 50, 400, 300],
+              "transition": {
+                "start": [
+                  {
+                    "duration": 2000,
+                    "alpha": 1
+                  }
+                ],
+                "end": [
+                  {
+                    "duration": 2000,
+                    "alpha": 0
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "dialogueScene": {
+      "type": "renderer",
+      "label": ["log"],
+      "next": {
+        "title": "Dialogue Branch",
+        "type": "scene",
+        "console": false,
+        "sleep": 0,
+        "select": [
+          {
+            "title": "Choice 1",
+            "to": "@main*path1Scene"
+          },
+          {
+            "title": "Choice 2",
+            "to": "@main*path2Scene"
+          }
+        ]
+      },
+      "dialog": {
+        "title": "@story*NPCName",
+        "text": "@story*DialogueContent",
+        "sleep": 1000,
+        "endHide": true
+      },
+      "audio": [
+        {
+          "type": "voice",
+          "channel": "NPCVoice",
+          "path": "voices",
+          "res": "dialogueVoice",
+          "sleep": 1000,
+          "loop": false
+        }
+      ],
+      "scene": [
+        {
+          "name": "NPC",
+          "keep": false,
+          "layer": [
+            {
+              "type": "sprite",
+              "align": 4,
+              "sleep": 1500,
+              "res": {
+                "name": "NPCSprite",
+                "path": "character"
+              },
+              "alpha": 0,
+              "position": [150, 200, 300, 400],
+              "cover": "source-over",
+              "childrenCover": "source-over",
+              "parent": null,
+              "transition": {
+                "start": [
+                  {
+                    "bezier": [0.2, 0.1, 0.8, 0.9],
+                    "duration": 2000,
+                    "alpha": 1
+                  }
+                ],
+                "end": [
+                  {
+                    "bezier": [0.2, 0.1, 0.8, 0.9],
+                    "duration": 2000,
+                    "alpha": 0
+                  }
+                ]
+              },
+              "children": [
+                {
+                  "type": "frame",
+                  "res": {
+                    "name": "NPCSprite",
+                    "path": "character"
+                  },
+                  "parent": "eyes",
+                  "animation": {
+                    "sleep": 2000,
+                    "plays": ["loop"],
+                    "cycle": [1000, 3000],
+                    "class": "eyes:open"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "choiceScene": {
+      "type": "renderer",
+      "label": ["log"],
+      "next": {
+        "type": "scene",
+        "console": true,
+        "condition": [
+          {
+            "eval": "playerChoice === 1",
+            "to": "@main*path1Scene"
+          },
+          {
+            "eval": "playerChoice === 2",
+            "to": "@main*path2Scene"
+          }
+        ]
+      },
+      "dialog": {
+        "title": "Make a Choice",
+        "text": "Choose your path wisely.",
+        "sleep": 500,
+        "endHide": false
+      },
+      "audio": [
+        {
+          "type": "effect",
+          "channel": "choiceEffect",
+          "path": "effects",
+          "res": "choiceSound",
+          "sleep": 1000,
+          "loop": false
+        }
+      ],
+      "scene": [
+        {
+          "name": "text",
+          "layer": [
+            {
+              "type": "block",
+              "res": "#888888",
+              "alpha": 0.7,
+              "position": [400, 200, 200, 300],
+              "transition": {
+                "start": [
+                  {
+                    "bezier": [0.2, 0.1, 0.8, 0.9],
+                    "duration": 1500,
+                    "alpha": 1
+                  }
+                ],
+                "end": [
+                  {
+                    "bezier": [0.2, 0.1, 0.8, 0.9],
+                    "duration": 1500,
+                    "alpha": 0
+                  }
+                ]
+              }
+            },
+            {
+              "type": "text",
+              "align": 4,
+              "sleep": 1500,
+              "res": {
+                "text": "1. Choice 1\\n2. Choice 2",
+                "font": [24, "normal", "normal", "#FFFFFF", "Arial"]
+              },
+              "alpha": 0.7,
+              "position": [200, 100, 250, 320],
+              "transition": {
+                "start": [
+                  {
+                    "bezier": [0.2, 0.1, 0.8, 0.9],
+                    "duration": 1500,
+                    "alpha": 1
+                  }
+                ],
+                "end": [
+                  {
+                    "bezier": [0.2, 0.1, 0.8, 0.9],
+                    "duration": 1500,
+                    "alpha": 0
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "path1Scene": {
+      "type": "renderer",
+      "label": ["log"],
+      "action": {
+        "method": "increaseScore",
+        "val": 10
+      },
+      "next": {
+        "type": "scene",
+        "duration": 6000,
+        "to": "@main*endingScene"
+      },
+      "dialog": {
+        "title": "Good Choice",
+        "text": "You've chosen the right path!",
+        "sleep": 1000,
+        "endHide": true
+      },
+      "audio": [
+        {
+          "type": "bgm",
+          "channel": "path1BGM",
+          "path": "bgm",
+          "res": "path1BGM",
+          "loop": true
+        },
+        {
+          "type": "effect",
+          "channel": "successEffect",
+          "path": "effects",
+          "res": "successSound",
+          "sleep": 1000,
+          "loop": false
+        }
+      ],
+      "scene": [
+        {
+          "name": "path",
+          "keep": false,
+          "layer": [
+            {
+              "type": "image",
+              "sleep": 1000,
+              "res": {
+                "name": "path1BG",
+                "path": "textures/paths"
+              },
+              "alpha": 0.9,
+              "position": ["70%", "70%", 100, 200],
+              "transition": {
+                "start": [
+                  {
+                    "bezier": [0.2, 0.1, 0.8, 0.9],
+                    "duration": 2000,
+                    "alpha": 1
+                  }
+                ],
+                "end": [
+                  {
+                    "bezier": [0.2, 0.1, 0.8, 0.9],
+                    "duration": 2000,
+                    "alpha": 0
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "path2Scene": {
+      "type": "renderer",
+      "label": ["log"],
+      "action": {
+        "method": "decreaseScore",
+        "val": 5
+      },
+      "next": {
+        "type": "scene",
+        "duration": 6000,
+        "to": "@main*endingScene"
+      },
+      "dialog": {
+        "title": "Tough Choice",
+        "text": "This path will be a bit challenging.",
+        "sleep": 1000,
+        "endHide": true
+      },
+      "audio": [
+        {
+          "type": "bgm",
+          "channel": "path2BGM",
+          "path": "bgm",
+          "res": "path2BGM",
+          "loop": true
+        },
+        {
+          "type": "effect",
+          "channel": "warningEffect",
+          "path": "effects",
+          "res": "warningSound",
+          "sleep": 1000,
+          "loop": false
+        }
+      ],
+      "scene": [
+        {
+          "name": "path",
+          "layer": [
+            {
+              "type": "image",
+              "sleep": 1000,
+              "res": {
+                "name": "path2BG",
+                "path": "textures/paths"
+              },
+              "alpha": 0.9,
+              "position": ["70%", "70%", 100, 200],
+              "transition": {
+                "start": [
+                  {
+                    "bezier": [0.2, 0.1, 0.8, 0.9],
+                    "duration": 2000,
+                    "alpha": 1
+                  }
+                ],
+                "end": [
+                  {
+                    "bezier": [0.2, 0.1, 0.8, 0.9],
+                    "duration": 2000,
+                    "alpha": 0
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "endingScene": {
+      "type": "renderer",
+      "label": ["log"],
+      "action": {
+        "method": "displayScore"
+      },
+      "dialog": {
+        "title": "Game Over",
+        "text": "Thanks for playing!",
+        "sleep": 1000,
+        "endHide": false
+      },
+      "audio": [
+        {
+          "type": "bgm",
+          "channel": "endingBGM",
+          "path": "bgm",
+          "res": "endingBGM",
+          "sleep": 0,
+          "loop": true
+        }
+      ],
+      "scene": [
+        {
+          "name": "ending",
+          "layer": [
+            {
+              "type": "image",
+              "sleep": 1000,
+              "res": {
+                "name": "endingBG",
+                "path": "textures/endings"
+              },
+              "alpha": 0.9,
+              "position": ["80%", "80%", 50, 100],
+              "transition": {
+                "start": [
+                  {
+                    "bezier": [0.2, 0.1, 0.8, 0.9],
+                    "duration": 2000,
+                    "alpha": 1
+                  }
+                ],
+                "end": [
+                  {
+                    "bezier": [0.2, 0.1, 0.8, 0.9],
+                    "duration": 2000,
+                    "alpha": 1
+                  }
+                ]
+              }
+            },
+            {
+              "type": "text",
+              "sleep": 2500,
+              "res": {
+                "text": "Your Score: [SCORE]",
+                "font": [36, "bold", "normal", "#FFFFFF", "Arial"],
+                "stroke": [3, "#000000"],
+                "shadow": [15, 7, 7, "#888888"]
+              },
+              "alpha": 0.5,
+              "position": [300, 100, 300, 350],
+              "transition": {
+                "start": [
+                  {
+                    "bezier": [0.2, 0.1, 0.8, 0.9],
+                    "duration": 2000,
+                    "alpha": 1
+                  }
+                ],
+                "end": [
+                  {
+                    "bezier": [0.2, 0.1, 0.8, 0.9],
+                    "duration": 2000,
+                    "alpha": 0
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
