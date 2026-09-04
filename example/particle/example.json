@@ -1,0 +1,22 @@
+{
+  "image": "raindrop",
+  "emit": {
+    "shape": "line",
+    "position": [640, -50],
+    "size": [1400, 0],
+    "rate": 300,
+    "max": 1000
+  },
+  "particle": {
+    "life": [800, 1200],
+    "speed": [800, 1000],
+    "angle": [95, 100],
+    "start": {
+      "size": [2, 4],
+      "alpha": [0.4, 0.7]
+    },
+    "end": {
+      "alpha": 0
+    }
+  }
+}
